@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Bachea
 
-## Getting Started
+Reporte ciudadano de baches en Ciudad de Guatemala, panel de coordinación y feed público de reparaciones.
 
-First, run the development server:
+- **Público (móvil primero):** reportar con GPS o mapa y fotos, seguimiento por folio, baches tapados en feed y mapa.
+- **Panel (`/admin`, escritorio):** bandeja priorizada, jornadas con ruta en Google Maps, cuadrillas, evidencias, costos y publicación.
+
+Stack: Next.js 16, Supabase (Postgres, Auth, Storage), Leaflet con OpenStreetMap, Tailwind.
+
+## Probar en local
+
+Requiere Node 22 y Docker.
 
 ```bash
+npm install
+npx supabase start
+npx supabase status -o env       # copia ANON_KEY y SERVICE_ROLE_KEY
+cp .env.example .env.local       # llena las claves y HASH_SECRET (openssl rand -hex 32)
+ADMIN_PASSWORD='una-clave-de-12-o-mas' npm run admin:create -- tu@correo.com
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Sitio en http://localhost:3000 y panel en http://localhost:3000/admin.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+El GPS del navegador solo funciona en `localhost` o con HTTPS. Para probarlo en un teléfono, usa un despliegue de Vercel o un túnel HTTPS.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Pruebas
 
-## Learn More
+```bash
+npm run build && npx playwright test
+```
 
-To learn more about Next.js, take a look at the following resources:
+Requieren el Supabase local: crean reportes y usuarios de prueba en esa base. `npx supabase db reset` la deja limpia.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Publicar
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Crea un proyecto en Supabase y aplica el esquema: `npx supabase link --project-ref <ref> && npx supabase db push`.
+2. En Supabase, en Authentication > Sign In / Providers, **desactiva los registros públicos** (`config.toml` solo aplica en local).
+3. Importa el repositorio en Vercel y define las variables de `.env.example`. `NEXT_PUBLIC_SITE_URL` es el dominio final.
+4. Crea el primer administrador con las variables de producción en `.env.local`: `npm run admin:create -- correo`.
 
-## Deploy on Vercel
+## Seguridad y privacidad
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- El navegador no accede directo a la base. Las rutas públicas usan la service role en el servidor y eligen columnas públicas; el panel usa la sesión del usuario con RLS.
+- `SUPABASE_SERVICE_ROLE_KEY` y `HASH_SECRET` nunca deben llevar prefijo `NEXT_PUBLIC_`.
+- Las fotos se reescriben en el servidor (sin EXIF ni GPS), viven en un bucket privado y solo se exponen las que un admin marca al publicar.
+- El contacto, las notas, materiales y costos nunca salen a páginas públicas.
+- Los límites por IP confían en cabeceras del proxy. En Vercel funciona tal cual; en un servidor propio, tu proxy debe sobrescribir `X-Real-IP`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Dónde ajustar
+
+| Qué | Archivo |
+| --- | --- |
+| Ciudad, área de servicio, gravedades, estados | `src/lib/config.ts` |
+| Colores y tipografía | `src/app/globals.css` |
+| Esquema y reglas de acceso | `supabase/migrations/` |
+| Límites por IP | `src/app/api/**`, `src/app/admin/actions.ts` |
+
+OpenStreetMap sirve para empezar. Con tráfico alto, su política pide cambiar de proveedor de mosaicos con `NEXT_PUBLIC_MAP_TILE_URL` y de geocodificador en `src/app/api/geocode/reverse/route.ts`.
+
+## Marca
+
+Logo original en `assets/brand/`. `node scripts/build-brand.mjs` regenera isotipo, letras e íconos. La paleta está en `src/app/globals.css`: los colores de gravedad (amarillo, naranja, rojo) quedan fuera de la marca a propósito, para distinguirse de un vistazo.
