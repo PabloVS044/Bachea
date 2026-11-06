@@ -1,0 +1,23 @@
+{
+  "name": "bachea-presentacion",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview --host",
+    "qr": "node scripts/qr.mjs",
+    "seed": "node scripts/seed-demo.mjs",
+    "grabar": "node scripts/grabar-demos.mjs"
+  },
+  "dependencies": {
+    "@fontsource/barlow": "^5.1.1",
+    "@fontsource/barlow-condensed": "^5.1.1",
+    "gsap": "^3.12.5"
+  },
+  "devDependencies": {
+    "qrcode": "^1.5.4",
+    "vite": "^5.4.10"
+  }
+}

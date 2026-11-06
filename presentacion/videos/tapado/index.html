@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="es"><head><meta charset="UTF-8"/><meta name="viewport" content="width=1920, height=1080"/>
+<script src="assets/gsap.min.js"></script>
+<style>
+@font-face{font-family:'Barlow Condensed';font-weight:600;src:url('assets/fonts/barlow-condensed-latin-600-normal.woff2') format('woff2')}@font-face{font-family:'Barlow Condensed';font-weight:800;src:url('assets/fonts/barlow-condensed-latin-800-normal.woff2') format('woff2')}@font-face{font-family:'Barlow';font-weight:500;src:url('assets/fonts/barlow-latin-500-normal.woff2') format('woff2')}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#121a13}
+#root{position:relative;width:100%;height:100%;overflow:hidden;background:#121a13}
+#push{position:absolute;inset:0}
+.ph{position:absolute;left:0;top:0;width:1920px;height:1440px}
+#aft{clip-path:inset(0 100% 0 0)}
+#shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(18,26,19,.5),transparent 35%,transparent 70%,rgba(18,26,19,.35))}
+#crew{position:absolute;inset:0;overflow:hidden;clip-path:inset(0 100% 0 0)}#crew img{position:absolute;left:0;top:-120px;width:1920px;height:1280px}#seam{position:absolute;top:0;bottom:0;left:0;width:10px;background:#93b78b;opacity:0}
+#tag{position:absolute;left:1270px;top:430px;background:#fff;border:6px solid #121a13;border-radius:12px;padding:8px 30px;font:800 72px/1.1 'Barlow Condensed',sans-serif;color:#121a13;letter-spacing:.05em;opacity:0}
+#sev{position:absolute;left:1270px;top:548px;display:flex;align-items:center;gap:14px;background:#121a13;color:#fff;padding:8px 24px 8px 18px;border-radius:8px;font:600 44px/1.2 'Barlow Condensed',sans-serif;opacity:0}
+#sev i{width:30px;height:34px;background:#c11f1d;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)}
+#sign{position:absolute;left:50%;top:770px;width:900px;margin-left:-450px;background:#2e5529;border-radius:22px;padding:10px;opacity:0;box-shadow:0 40px 90px rgba(0,0,0,.55)}
+#sign div{display:flex;align-items:center;justify-content:center;gap:34px;border:6px solid #fff;border-radius:14px;padding:18px 40px;color:#fff;font:800 170px/1 'Barlow Condensed',sans-serif;text-transform:uppercase}
+#sign img{height:150px;width:auto}
+#note{position:absolute;right:40px;bottom:30px;font:500 26px/1 'Barlow',sans-serif;color:#fff;background:rgba(18,26,19,.75);padding:8px 14px;border-radius:6px}
+</style></head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="7" data-width="1920" data-height="1080">
+  <div id="push">
+    <img id="bef" class="ph" src="assets/bache-moto.jpg" alt="Bache antes de la reparación"/>
+    <img id="aft" class="ph" src="assets/bache-moto-tapado.jpg" alt="Simulación del bache tapado"/>
+    <div id="shade"></div>
+  </div>
+  <div id="tag">BCH-DEM001</div>
+  <div id="sev"><i></i>Peligroso</div>
+  <div id="crew"><img src="assets/cuadrilla-cruce.jpg" alt="Cuadrilla trabajando en un parche de asfalto"/></div>
+  <div id="seam"></div>
+  <div id="sign"><div><img src="assets/isotipo.png" alt=""/>Tapado</div></div>
+  <div id="note">Simulación ilustrativa</div>
+</div>
+<script>
+window.__timelines=window.__timelines||{};
+const tl=gsap.timeline({paused:true});
+tl.fromTo('#push',{scale:1.08,x:0,y:40},{scale:1,x:0,y:0,duration:7,ease:'none'},0);
+tl.fromTo('#tag',{opacity:0,y:20},{opacity:1,y:0,duration:.35,ease:'expo.out'},.5);
+tl.fromTo('#sev',{opacity:0,y:20},{opacity:1,y:0,duration:.35,ease:'expo.out'},.72);
+tl.to(['#tag','#sev'],{opacity:0,duration:.18,ease:'power2.in'},1.7);
+// Entra la cuadrilla (foto real) y al salir deja el parche
+tl.fromTo('#crew',{clipPath:'inset(0 100% 0 0)'},{clipPath:'inset(0 0% 0 0)',duration:.55,ease:'power3.inOut'},1.85);
+tl.fromTo('#crew img',{scale:1.02},{scale:1.1,duration:2,ease:'none'},1.85);
+tl.set('#aft',{clipPath:'inset(0 -2% 0 0)'},2.4);
+tl.fromTo('#crew',{clipPath:'inset(0 0% 0 0)'},{clipPath:'inset(0 0% 0 100%)',duration:.6,ease:'power3.inOut',immediateRender:false},3.75);
+tl.fromTo('#sign',{opacity:0,scale:1.5},{opacity:1,scale:1,duration:.32,ease:'back.out(1.5)'},4.45);
+window.__timelines['main']=tl;
+</script>
+</body></html>

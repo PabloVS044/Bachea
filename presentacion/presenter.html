@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es-GT">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bachea · Vista de presentador</title>
+    <link rel="icon" href="media/brand/isotipo.png" />
+  </head>
+  <body>
+    <header>
+      <div class="sec"><b id="p-secn"></b><span id="p-sec"></span><em id="p-who"></em></div>
+      <div class="timers">
+        <div><small>Sección</small><b id="t-sec">0:00</b><span id="t-tope"></span></div>
+        <div><small>Total</small><b id="t-total">0:00</b><span>/ 10:00</span></div>
+        <button id="t-start">Iniciar</button>
+        <button id="t-reset">Reiniciar</button>
+      </div>
+    </header>
+    <main>
+      <section class="now">
+        <div class="lbl">Ahora · <span id="p-idx"></span></div>
+        <div class="frame"><iframe id="f-now" title="Slide actual"></iframe></div>
+      </section>
+      <section class="side">
+        <div class="lbl">Siguiente</div>
+        <div class="frame small"><iframe id="f-next" title="Siguiente slide"></iframe></div>
+        <div class="lbl" style="margin-top:18px">Notas · <span id="p-title"></span></div>
+        <pre id="p-notes"></pre>
+      </section>
+    </main>
+    <footer>
+      <button data-cmd="prev">◀ Anterior</button>
+      <button data-cmd="next" class="primary">Siguiente ▶</button>
+      <button data-cmd="black">Pantalla negra (B)</button>
+      <button data-cmd="video">Pausa video (V)</button>
+      <button data-cmd="demo">Ir a la demo (D)</button>
+      <span class="keys">← → · PageUp/PageDown · número + Enter para saltar</span>
+    </footer>
+    <script type="module" src="/src/presenter.js"></script>
+  </body>
+</html>

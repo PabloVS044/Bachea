@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="es"><head><meta charset="UTF-8"/><meta name="viewport" content="width=1920, height=1080"/>
+<script src="assets/gsap.min.js"></script>
+<style>
+@font-face{font-family:'Barlow Condensed';font-weight:600;src:url('assets/fonts/barlow-condensed-latin-600-normal.woff2') format('woff2')}@font-face{font-family:'Barlow Condensed';font-weight:800;src:url('assets/fonts/barlow-condensed-latin-800-normal.woff2') format('woff2')}@font-face{font-family:'Barlow';font-weight:500;src:url('assets/fonts/barlow-latin-500-normal.woff2') format('woff2')}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#090d0a}
+#root{position:relative;width:100%;height:100%;overflow:hidden;background:#090d0a}
+#cam{position:absolute;inset:-70px}
+#sky{position:absolute;left:0;right:0;top:0;height:46%;background:linear-gradient(#070a08 0%,#111a13 60%,#26392a 100%)}
+#glow{position:absolute;left:50%;top:40%;width:900px;height:160px;margin-left:-450px;background:radial-gradient(ellipse at center,rgba(147,183,139,.28),transparent 70%)}
+#scene{position:absolute;inset:0;perspective:760px;perspective-origin:50% 41%;overflow:hidden}
+#plane{position:absolute;left:50%;bottom:-60px;width:2300px;margin-left:-1150px;height:9000px;transform-origin:50% 100%;transform:rotateX(84.3deg);background:url('assets/asfalto.jpg') center top/1150px auto repeat}
+.edge{position:absolute;top:0;bottom:0;width:26px;background:#d9dfd5;opacity:.75}
+#e1{left:230px}#e2{right:230px}
+#dashes{position:absolute;top:0;bottom:0;left:50%;width:30px;margin-left:-15px;background-image:repeating-linear-gradient(to bottom,#eef0eb 0 240px,transparent 240px 560px);opacity:.9}
+#hole{position:absolute;left:620px;top:0;width:1100px;height:900px;background:url('assets/hueco.jpg') center 38%/cover;-webkit-mask-image:radial-gradient(ellipse 50% 50% at center,#000 62%,transparent 100%);mask-image:radial-gradient(ellipse 50% 50% at center,#000 62%,transparent 100%)}
+#lights{position:absolute;inset:0;background:radial-gradient(ellipse 62% 56% at 50% 78%,transparent 40%,rgba(5,8,6,.86) 100%)}
+#flash{position:absolute;inset:0;background:#fff;opacity:0}
+#black{position:absolute;inset:0;background:#0b100c;opacity:0}
+#t{position:absolute;left:0;right:0;top:50%;margin-top:-140px;text-align:center;font:800 240px/1 'Barlow Condensed',sans-serif;color:#fff;letter-spacing:-.005em;text-transform:uppercase}
+#t span{display:inline-block;opacity:0}
+#t em{font-style:normal;color:#93b78b}
+</style></head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="7" data-width="1920" data-height="1080">
+  <div id="cam">
+    <div id="sky"></div><div id="glow"></div>
+    <div id="scene"><div id="plane"><i class="edge" id="e1"></i><i class="edge" id="e2"></i><div id="dashes"></div><div id="hole"></div></div></div>
+    <div id="lights" data-layout-ignore></div>
+  </div>
+  <div id="black"></div><div id="flash"></div>
+  <h1 id="t"><span id="w1">Otro</span> <span id="w2"><em>bache.</em></span></h1>
+</div>
+<script>
+window.__timelines=window.__timelines||{};
+const tl=gsap.timeline({paused:true});
+const HIT=3.4;
+// Carretera: el suelo avanza a velocidad constante
+tl.fromTo('#plane',{backgroundPositionY:'0px'},{backgroundPositionY:(1500*HIT)+'px',duration:HIT,ease:'none'},0);
+tl.fromTo('#dashes',{backgroundPositionY:'0px'},{backgroundPositionY:(1500*HIT)+'px',duration:HIT,ease:'none'},0);
+tl.fromTo('#hole',{y:3650},{y:3650+1500*HIT,duration:HIT,ease:'none'},0);
+// Leve vaivén de conducción
+tl.fromTo('#cam',{x:0,y:0},{x:14,y:-5,duration:1.6,ease:'sine.inOut'},0);
+tl.to('#cam',{x:-8,y:3,duration:1.8,ease:'sine.inOut'},1.6);
+// Golpe
+tl.set('#flash',{opacity:.92},HIT);
+tl.to('#flash',{opacity:0,duration:.28,ease:'power2.out'},HIT+.04);
+const shake=[[-46,62,-2.4],[38,-54,2],[-30,36,-1.6],[24,-26,1.2],[-14,16,-.6],[8,-8,.3],[0,0,0]];
+shake.forEach((s,i)=>tl.to('#cam',{x:s[0],y:s[1],rotation:s[2],duration:.07,ease:'none'},HIT+i*.07));
+// Corte y remate
+tl.to('#black',{opacity:1,duration:.22,ease:'power2.in'},HIT+.42);
+tl.fromTo('#w1',{opacity:0,filter:'blur(10px)'},{opacity:1,filter:'blur(0px)',duration:.2,ease:'power4.out'},HIT+.72);
+tl.fromTo('#w2',{opacity:0,filter:'blur(10px)'},{opacity:1,filter:'blur(0px)',duration:.2,ease:'power4.out'},HIT+.98);
+window.__timelines['main']=tl;
+</script>
+</body></html>
