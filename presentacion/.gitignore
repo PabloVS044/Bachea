@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.hyperframes/
+renders/
+brag-output/work/
+.env*
+tmp/
+brag-output/composition/assets/*.mp4

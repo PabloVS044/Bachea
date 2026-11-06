@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Presentación: proyecto Vite aparte, con su propio paquete.
+    "presentacion/**",
   ]),
 ]);
 

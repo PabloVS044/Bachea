@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="es"><head><meta charset="UTF-8"/><meta name="viewport" content="width=1920, height=1080"/>
+<script src="assets/gsap.min.js"></script>
+<style>
+@font-face{font-family:'Barlow Condensed';font-weight:800;src:url('assets/fonts/barlow-condensed-latin-800-normal.woff2') format('woff2')}
+@font-face{font-family:'Barlow Condensed';font-weight:600;src:url('assets/fonts/barlow-condensed-latin-600-normal.woff2') format('woff2')}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#121a13}
+#root{position:relative;width:100%;height:100%;overflow:hidden;background:#121a13;font-family:'Barlow Condensed',sans-serif;color:#fff}
+.full{position:absolute;left:0;top:0;width:1920px;height:1080px;object-fit:cover}
+.pane{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden}
+.big{font-weight:800;text-transform:uppercase;line-height:.94}
+.big em{font-style:normal;color:#93b78b}
+#s2 .sc{position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,16,11,.93) 10%,rgba(10,16,11,.25) 72%)}
+#q{position:absolute;left:110px;right:110px;bottom:90px;font-size:210px}
+#s3{background:#2e5529}
+#phone{position:absolute;left:1270px;top:75px;width:430px;height:930px;padding:12px;border-radius:56px;background:#0a0e0b;box-shadow:0 0 0 3px #39443a,0 40px 80px rgba(0,0,0,.5)}
+#phone video{position:absolute;left:12px;top:12px;width:406px;height:906px;object-fit:cover;border-radius:44px;background:#fff}
+.st{position:absolute;left:110px;font-size:230px;opacity:0}
+#st1{top:150px}#st2{top:390px}#st3{top:630px}
+.st em{font-style:normal;color:#93b78b}
+#s5{background:#121a13}
+#lap{position:absolute;left:400px;top:230px;width:1400px;height:788px;border-radius:14px;overflow:hidden;box-shadow:0 0 0 12px #0a0e0b,0 0 0 15px #39443a,0 40px 90px rgba(0,0,0,.6)}
+#lap video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#fff}
+#t5{position:absolute;left:110px;top:60px;font-size:124px;white-space:nowrap}
+#s7{background:#2e5529;display:flex;align-items:center;justify-content:center;gap:80px}
+#s7 img{height:400px}
+#s7 h2{font-size:150px;white-space:nowrap}
+#s7 small{display:block;margin-top:26px;font-size:62px;font-weight:600;color:#dcead7;text-transform:none}
+</style></head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="21" data-width="1920" data-height="1080">
+  <video id="v1" class="clip full" src="assets/golpe.mp4" muted playsinline data-start="0" data-media-start="2.2" data-duration="3.4" data-track-index="0"></video>
+
+  <div id="s2" class="clip pane" data-start="3.4" data-duration="2.6" data-track-index="1">
+    <img id="s2img" class="full" src="assets/bache-charco.jpg" alt="Bache con agua"/>
+    <div class="sc"></div>
+    <h1 id="q" class="big">¿Hay un bache en <em>tu colonia?</em></h1>
+  </div>
+
+  <div id="s3" class="clip pane" data-start="6" data-duration="5.5" data-track-index="2">
+    <div id="st1" class="st big">Márcalo.</div>
+    <div id="st2" class="st big">Foto.</div>
+    <div id="st3" class="st big"><em>Folio.</em></div>
+    <div id="phone"></div>
+  </div>
+  <video id="v3" class="clip" src="assets/reporte.mp4" muted playsinline data-start="6" data-media-start="2.7" data-duration="5.5" data-playback-rate="2" data-track-index="3" style="position:absolute;left:1282px;top:87px;width:406px;height:906px;object-fit:cover;border-radius:44px;z-index:3"></video>
+
+  <video id="v4" class="clip full" src="assets/ruta.mp4" muted playsinline data-start="11.5" data-media-start="3" data-duration="2" data-playback-rate="2.5" data-track-index="4" style="z-index:4"></video>
+
+  <div id="s5" class="clip pane" data-start="13.5" data-duration="2" data-track-index="5" style="z-index:5">
+    <h2 id="t5" class="big">Nuestra cuadrilla <em>va a taparlo.</em></h2>
+    <div id="lap"></div>
+  </div>
+  <video id="v5" class="clip" src="assets/panel.mp4" muted playsinline data-start="13.5" data-media-start="0.5" data-duration="2" data-track-index="6" style="position:absolute;left:400px;top:230px;width:1400px;height:788px;object-fit:cover;z-index:6"></video>
+
+  <video id="v6" class="clip full" src="assets/tapado.mp4" muted playsinline data-start="15.5" data-media-start="3.9" data-duration="2.5" data-track-index="7" style="z-index:7"></video>
+
+  <div id="s7" class="clip pane" data-start="18" data-duration="3" data-track-index="8" style="z-index:8">
+    <img id="logo" src="assets/isotipo.png" alt="Bachea"/>
+    <h2 id="end" class="big">Tú lo reportas.<br/>Nosotros lo tapamos.<small>Bachea · Ciudad de Guatemala</small></h2>
+  </div>
+</div>
+<script>
+window.__timelines=window.__timelines||{};
+const tl=gsap.timeline({paused:true});
+tl.fromTo('#s2img',{scale:1.14},{scale:1.02,duration:2.6,ease:'power2.out'},3.4);
+tl.fromTo('#q',{opacity:0,filter:'blur(10px)'},{opacity:1,filter:'blur(0px)',duration:.2,ease:'power4.out'},3.55);
+[['#st1',6.15],['#st2',7.8],['#st3',10.15]].forEach(([s,t])=>tl.fromTo(s,{opacity:0,filter:'blur(10px)'},{opacity:1,filter:'blur(0px)',duration:.18,ease:'power4.out'},t));
+tl.fromTo('#t5',{opacity:0,filter:'blur(10px)'},{opacity:1,filter:'blur(0px)',duration:.18,ease:'power4.out'},13.55);
+tl.fromTo('#logo',{opacity:0,scale:.7},{opacity:1,scale:1,duration:.4,ease:'back.out(1.6)'},18.05);
+tl.fromTo('#end',{opacity:0,filter:'blur(10px)'},{opacity:1,filter:'blur(0px)',duration:.22,ease:'power4.out'},18.25);
+window.__timelines['main']=tl;
+</script>
+</body></html>

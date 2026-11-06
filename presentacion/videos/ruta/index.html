@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es"><head><meta charset="UTF-8"/><meta name="viewport" content="width=1920, height=1080"/>
+<script src="assets/gsap.min.js"></script><script src="assets/MotionPathPlugin.min.js"></script>
+<style>
+@font-face{font-family:'Barlow Condensed';font-weight:600;src:url('assets/fonts/barlow-condensed-latin-600-normal.woff2') format('woff2')}@font-face{font-family:'Barlow Condensed';font-weight:800;src:url('assets/fonts/barlow-condensed-latin-800-normal.woff2') format('woff2')}@font-face{font-family:'Barlow';font-weight:500;src:url('assets/fonts/barlow-latin-500-normal.woff2') format('woff2')}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#0b100c}
+#root{position:relative;width:100%;height:100%;overflow:hidden;background:#0b100c}
+#map{position:absolute;inset:0}
+#map img{position:absolute;inset:0;width:1920px;height:1080px}
+#v{position:absolute;inset:0;background:linear-gradient(100deg,rgba(11,16,12,.82) 0,transparent 42%),radial-gradient(ellipse 80% 80% at 50% 50%,transparent 60%,rgba(11,16,12,.6) 100%)}
+#wire{position:absolute;inset:0;width:1920px;height:1080px}
+#line{fill:none;stroke:#93b78b;stroke-width:9;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1}
+.p{position:absolute;width:58px;height:66px;margin:-33px 0 0 -29px;opacity:0;background:#121a13;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)}
+.p b{position:absolute;inset:6px;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)}
+.p u{position:absolute;inset:6px;background:#4f8249;opacity:0;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);display:grid;place-items:center}
+.p u svg{width:30px;height:30px}
+#truck{position:absolute;left:0;top:0;width:96px;height:96px;margin:-48px 0 0 -48px;border-radius:50%;background:#fff;border:6px solid #121a13;display:grid;place-items:center;opacity:0;box-shadow:0 12px 30px rgba(0,0,0,.5)}
+#truck svg{width:60px;height:60px}
+#hud{position:absolute;left:90px;top:80px;color:#fff;font:800 118px/1 'Barlow Condensed',sans-serif;text-transform:uppercase}
+#hud small{display:block;font:600 46px/1.2 'Barlow Condensed',sans-serif;color:#93b78b;letter-spacing:.02em;text-transform:none;margin-top:8px}
+#h1 span,#h2 span{display:inline-block}
+#pins{position:absolute;inset:0}
+#osm{position:absolute;right:20px;bottom:14px;font:500 28px/1 'Barlow',sans-serif;color:rgba(255,255,255,.8)}
+</style></head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="10" data-width="1920" data-height="1080">
+  <div id="map"><img src="assets/guate-oscuro.jpg" alt="Mapa de Ciudad de Guatemala"/><div id="v"></div></div>
+  <svg id="wire" viewBox="0 0 1920 1080"><path id="line" pathLength="1" d="M755.5 1125.9 Q739.5 1065.9 815.5 1005.9 Q903.5 940.9 899.4 875.9 Q954.8 807.3 1102.1 738.7 Q1110.3 658.6 1026.4 578.5 Q983.3 512.9 1032.2 447.3 Q1090.5 364.2 1056.7 281.1"/></svg>
+  <div id="pins"></div>
+  <div id="truck"><svg viewBox="0 0 24 24" fill="none" stroke="#2e5529" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h12v9H2zM14 10h4l4 3.5V16h-8z"/><circle cx="7" cy="17.5" r="2" fill="#fff"/><circle cx="17.5" cy="17.5" r="2" fill="#fff"/></svg></div>
+  <div id="hud"><div id="h1">Ruta del día</div><small id="h2"><span id="cn">0</span> de 6 baches tapados</small></div>
+  <div id="osm">© OpenStreetMap</div>
+</div>
+<script>
+gsap.registerPlugin(MotionPathPlugin);
+window.__timelines=window.__timelines||{};
+const M={x0:0,y0:0,z:14};
+const n=256*2**14,LAT=14.615,LNG=-90.522;
+const px=(la,ln)=>{const x=(ln+180)/360*n;const y=(1-Math.asinh(Math.tan(la*Math.PI/180))/Math.PI)/2*n;
+  const cx=(LNG+180)/360*n,cy=(1-Math.asinh(Math.tan(LAT*Math.PI/180))/Math.PI)/2*n;return [x-cx+960,y-cy+540]};
+const SEV={p:'#c11f1d',m:'#e8610f',l:'#e3b505'};
+const R=[[14.5763,-90.5344,'p'],[14.5871,-90.5272,'p'],[14.5985,-90.5098,'p'],[14.6118,-90.5163,'m'],[14.6227,-90.5158,'m'],[14.6365,-90.5137,'p']].map(r=>[...px(r[0],r[1]),r[2]]);
+const CHECK='<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>';
+const box=document.getElementById('pins');
+R.forEach((r,i)=>{const d=document.createElement('div');d.className='p';d.id='p'+i;d.style.left=r[0]+'px';d.style.top=r[1]+'px';d.innerHTML='<b style="background:'+SEV[r[2]]+'"></b><u>'+CHECK+'</u>';box.appendChild(d)});
+const start=[755.5,1125.9];
+const tl=gsap.timeline({paused:true});
+tl.fromTo('#map',{scale:1,transformOrigin:'50% 50%'},{scale:1.08,duration:10,ease:'none'},0);
+tl.fromTo('#wire',{scale:1,transformOrigin:'50% 50%'},{scale:1.08,duration:10,ease:'none'},0);
+tl.fromTo('#pins',{scale:1,transformOrigin:'50% 50%'},{scale:1.08,duration:10,ease:'none'},0);
+tl.fromTo('#truck',{scale:1},{scale:1,duration:.01},0);
+tl.fromTo('#hud',{opacity:0,filter:'blur(8px)'},{opacity:1,filter:'blur(0px)',duration:.2,ease:'power4.out'},.15);
+R.forEach((r,i)=>tl.fromTo('#p'+i,{opacity:0,scale:.3},{opacity:1,scale:1,duration:.4,ease:'back.out(2)'},.5+i*.14));
+const T0=1.7,DUR=6.2;
+tl.to('#line',{strokeDashoffset:0,duration:DUR,ease:'none'},T0);
+// El camión comparte la escala del mapa para seguir la línea
+const wrap=document.createElement('div');wrap.id='tw';wrap.style.cssText='position:absolute;inset:0';
+const tr=document.getElementById('truck');tr.parentNode.insertBefore(wrap,tr);wrap.appendChild(tr);
+tl.fromTo('#tw',{scale:1,transformOrigin:'50% 50%'},{scale:1.08,duration:10,ease:'none'},0);
+tl.set('#truck',{x:start[0],y:start[1]},0);
+tl.to('#truck',{opacity:1,duration:.2},T0-.2);
+tl.to('#truck',{motionPath:{path:'#line',align:'#line',alignOrigin:[.5,.5]},duration:DUR,ease:'none'},T0);
+const line=document.getElementById('line');const total=line.getTotalLength();
+// Momento en que la línea pasa por cada punto
+const at=R.map(r=>{let best=0,bd=1e9;for(let s=0;s<=600;s++){const q=line.getPointAtLength(total*s/600);const e=(q.x-r[0])**2+(q.y-r[1])**2;if(e<bd){bd=e;best=s/600}}return T0+best*DUR});
+const counter={v:0};const cn=document.getElementById('cn');
+R.forEach((r,i)=>{tl.to('#p'+i+' u',{opacity:1,duration:.14},at[i]);tl.fromTo('#p'+i,{scale:1},{scale:1.28,duration:.1,yoyo:true,repeat:1,ease:'power2.out'},at[i]);
+  tl.to(counter,{v:i+1,duration:.01},at[i]);});
+tl.eventCallback('onUpdate',()=>{cn.textContent=Math.round(counter.v)});
+window.__timelines['main']=tl;
+</script>
+</body></html>

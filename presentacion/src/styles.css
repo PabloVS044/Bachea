@@ -1,0 +1,43 @@
+/* Bachea · lienzo fijo de 1920×1080 escalado a la pantalla. Paleta y letras de la app. */
+:root {
+  --bachea: #4f8249;
+  --bachea-dark: #2e5529;
+  --menta: #93b78b;
+  --claro: #dcead7;
+  --noche: #121a13;
+  --fondo: #eef0eb;
+  --leve: #e3b505;
+  --moderado: #e8610f;
+  --peligroso: #c11f1d;
+  --f-display: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --f-sans: 'Barlow', system-ui, sans-serif;
+  --pad: 110px;
+  --hex: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+  --grano: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.3' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23g)'/%3E%3C/svg%3E");
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; overflow: hidden; background: #000; color: #fff; font-family: var(--f-sans); -webkit-font-smoothing: antialiased; cursor: none; }
+body.show-cursor { cursor: default; }
+body:not(.show-cursor) * { cursor: none !important; }
+#viewport { position: fixed; inset: 0; background: #000; }
+#stage { position: absolute; left: 50%; top: 50%; width: 1920px; height: 1080px; overflow: hidden; background: var(--noche); transform-origin: center center; }
+#slides { position: absolute; inset: 0; }
+#blackout { position: absolute; inset: 0; z-index: 100; background: #000; opacity: 0; pointer-events: none; transition: opacity .5s; }
+#blackout.on { opacity: 1; }
+#goto { position: absolute; right: 40px; bottom: 30px; z-index: 90; padding: 10px 22px; border-radius: 8px; background: var(--noche); font: 700 36px var(--f-display); opacity: 0; }
+#goto.on { opacity: 1; }
+
+/* Cruce entre secciones: pasa una franja de asfalto con su línea central */
+#sweep { position: absolute; inset: 0 -4%; z-index: 80; opacity: 0; pointer-events: none; display: grid; place-items: center; background: var(--noche) var(--grano); }
+#sweep i { position: absolute; left: 0; right: 0; top: 50%; height: 12px; margin-top: -6px; background: repeating-linear-gradient(to right, var(--menta) 0 70px, transparent 70px 120px); }
+#sweep img { position: relative; height: 230px; filter: drop-shadow(0 16px 40px #000); }
+
+.slide { position: absolute; inset: 0; visibility: hidden; opacity: 0; overflow: hidden; pointer-events: none; }
+.slide.active { visibility: visible; opacity: 1; pointer-events: auto; }
+.slide.dark { background: var(--noche) var(--grano); color: #fff; }
+.slide.green { background: var(--bachea-dark) var(--grano); color: #fff; }
+
+[data-step] { visibility: hidden; opacity: 0; }
+
+.w { display: inline-block; overflow: hidden; vertical-align: top; padding: .04em .03em .06em; margin: -.04em -.03em -.06em; }
+.wi { display: inline-block; }
