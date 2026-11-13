@@ -1,17 +1,17 @@
 # Guion · 10 minutos
 
-Las notas también están en la vista de presentador (tecla P), con cronómetro por sección.
+El texto de cada quien está en [PITCH.md](PITCH.md). Las notas también están en la vista de presentador (tecla P), con cronómetro por sección.
 
 | Tiempo | Sección | Diapositivas | Quién |
 | --- | --- | --- | --- |
-| 0:20 | Antesala | Portada | Por asignar |
-| 1:40 | El problema | Golpe · Daño · Mapa | Por asignar |
-| 0:30 | Para quién | Personas | Por asignar |
-| 1:15 | Cómo se reporta | Teléfono | Por asignar |
-| 0:45 | Qué hacemos con el reporte | Ruta · Panel | Por asignar |
-| 0:30 | La prueba | Tapado · Antes/después | Por asignar |
-| 4:00 | Demo en vivo | Demo | Por asignar |
-| 0:30 | Cierre | Cierre | Por asignar |
+| 0:20 | Antesala | Portada | Angel |
+| 1:40 | El problema | Golpe · Daño · Mapa | Angel · Vernel (mapa) |
+| 0:30 | Para quién | Personas | Vernel |
+| 1:15 | Cómo se reporta | Teléfono | Pablo |
+| 0:45 | Qué hacemos con el reporte | Ruta · Panel | Pablo |
+| 0:30 | La prueba | Tapado · Antes/después | Juan |
+| 4:00 | Demo en vivo | Demo | Pablo · Juan copiloto |
+| 0:30 | Cierre | Cierre | Juan |
 
 Quedan 30 segundos de margen.
 

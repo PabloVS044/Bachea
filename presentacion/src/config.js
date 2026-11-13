@@ -5,7 +5,7 @@ export const APP_URL = 'http://localhost:3000'
 
 // Dominio público de Bachea. Vacío = todavía sin publicar: el cierre no muestra QR.
 // Al publicar: pon la URL aquí y corre `npm run qr -- https://tu-dominio`.
-export const SITE_URL = ''
+export const SITE_URL = 'https://bachea.kontrol.it.com'
 
 // Quiénes presentan cada sección (se ve solo en la vista de presentador).
 export const EQUIPO = ['Angel Sanabria', 'Vernel Hernández', 'Javier Sipac', 'Juan Montenegro', 'Pablo Vásquez']
