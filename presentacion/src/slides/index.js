@@ -286,6 +286,9 @@ Privacidad: las fotos se limpian de metadatos y el contacto nunca sale a página
       const r = el.querySelector('input')
       const set = () => el.querySelector('.ba').style.setProperty('--split', `${r.value}%`)
       r.addEventListener('input', set)
+      // Al soltarlo se libera el foco: las flechas y el clicker vuelven a mover las diapositivas
+      r.addEventListener('pointerup', () => r.blur())
+      r.addEventListener('change', () => r.blur())
       set()
     },
     onStep(k, el) {

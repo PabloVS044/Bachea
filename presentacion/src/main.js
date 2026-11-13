@@ -278,8 +278,7 @@ let gotoBuf = ''
 addEventListener('keydown', (e) => {
   if (PREVIEW) return
   const k = e.key
-  // El deslizador de antes/después usa las flechas cuando tiene el foco
-  if (e.target.matches?.('input[type="range"]') && k.startsWith('Arrow')) return
+  // Las flechas siempre cambian de diapositiva, aunque el deslizador de antes/después tenga el foco
   if (/^[0-9]$/.test(k)) {
     gotoBuf += k
     gotoEl.textContent = `Ir a ${gotoBuf}`
