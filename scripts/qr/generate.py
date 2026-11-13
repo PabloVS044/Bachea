@@ -12,7 +12,7 @@ import segno
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 OUT = ROOT / "assets" / "qr"
 BUILD = OUT / "_html"
-URL = sys.argv[1] if len(sys.argv) > 1 else "https://bachea.vercel.app"
+URL = sys.argv[1] if len(sys.argv) > 1 else "https://bachea.kontrol.it.com"
 DISPLAY_URL = URL.replace("https://", "").replace("http://", "").rstrip("/")
 
 C = {
